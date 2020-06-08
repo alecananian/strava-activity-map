@@ -1,0 +1,31 @@
+{
+  "translation": {
+    "activityCount": "{{count}} activity",
+    "activityCount_plural": "{{count}} activities",
+    "activityTypeDetails": "$t(activityCount, { 'count': {{activityCount}} }) ({{distance}})",
+    "app": {
+      "title": "Strava Activity Map",
+      "description": "Connect with Strava to view your activity map"
+    },
+    "distance_mi": "{{value}} mi",
+    "distance_km": "{{value}} km",
+    "distanceUnit_mi": "Miles",
+    "distanceUnit_km": "Kilometers",
+    "language_en": "English",
+    "login": {
+      "action": "Connect with Strava"
+    },
+    "mapType_map": "Map",
+    "mapType_satellite": "Satellite",
+    "mapType_heat_map_light": "Heat Map (Light)",
+    "mapType_heat_map_dark": "Heat Map (Dark)",
+    "menu": {
+      "open": "Open menu",
+      "close": "Close menu",
+      "language": "Change language",
+      "lightMode": "Set light mode",
+      "darkMode": "Set dark mode",
+      "logOut": "Log out"
+    }
+  }
+}
