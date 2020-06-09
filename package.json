@@ -52,6 +52,8 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.9",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-static-files-copy": "^2.4.1",
     "typescript": "^3.9.5"
@@ -61,5 +63,13 @@
     "not IE 11",
     "not IE_Mob 11",
     "maintained node versions"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{tsx,ts}": "npm run lint -- --fix"
+  }
 }
