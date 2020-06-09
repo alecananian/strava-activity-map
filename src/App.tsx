@@ -10,6 +10,7 @@ import {
 import '~/i18n';
 import StravaProvider from '~/contexts/strava';
 import { SettingsProvider } from '~/contexts/settings';
+import { StravaOrange } from '~/utils/color';
 import { MapView } from '~/views/MapView';
 
 const App = () => {
@@ -18,6 +19,9 @@ const App = () => {
     createMuiTheme({
       palette: {
         type: prefersDarkMode ? 'dark' : 'light',
+        primary: {
+          main: StravaOrange,
+        },
       },
     })
   ), [prefersDarkMode]);

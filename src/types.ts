@@ -92,8 +92,8 @@ export interface IActivitiesCache {
 }
 
 export type TActivityTypeSettings = {
-  [key in ActivityType]?: {
+  [key in ActivityType]: {
     color: string,
-    hidden?: boolean,
+    hidden: boolean,
   };
 };

@@ -12,6 +12,7 @@ import purple from '@material-ui/core/colors/purple';
 import type { TActivityTypeSettings } from '~/types';
 import type Activity from '~/models/activity';
 import { ActivityType, DistanceUnit, MapType } from '~/types';
+import { getDefaultActivityTypeSettings } from '~/utils/activity';
 import { getDefaultDistanceUnits } from '~/utils/distance';
 import {
   CacheKey,
@@ -35,24 +36,7 @@ type State = {
 };
 
 const InitialState: State = getJSONFromLocalStorage(CacheKey.SettingsContext) || {
-  activityTypeSettings: {
-    [ActivityType.Hike]: {
-      color: blue[500],
-      hidden: false,
-    },
-    [ActivityType.Ride]: {
-      color: pink[500],
-      hidden: false,
-    },
-    [ActivityType.Run]: {
-      color: orange[500],
-      hidden: false,
-    },
-    [ActivityType.Walk]: {
-      color: purple[500],
-      hidden: false,
-    },
-  },
+  activityTypeSettings: getDefaultActivityTypeSettings(),
   mapType: MapType.Map,
   distanceUnits: getDefaultDistanceUnits(),
 };
