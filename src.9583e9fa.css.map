@@ -1,1 +1,0 @@
-{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,eACE,WAAY,CACZ,SAAU,CACV,QACF,CAEA,KACE,6CACF","file":"src.9583e9fa.css","sourceRoot":"../src","sourcesContent":["html, body, #app {\n  height: 100%;\n  padding: 0;\n  margin: 0;\n}\n\nbody {\n  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;\n}\n"]}
