@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "scripts": {
     "start": "parcel ./src/index.html",
-    "build": "parcel build ./src/index.html --experimental-scope-hoisting",
+    "build": "parcel build ./src/index.html",
     "build:gh": "npm run build -- --public-url /strava-activity-map",
     "lint": "eslint ./src --ext .tsx,.ts"
   },

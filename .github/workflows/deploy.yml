@@ -17,6 +17,12 @@ jobs:
         run: |
           npm ci
           npm run build:gh
+        env:
+          STRAVA_CLIENT_ID=${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_REDIRECT_URI=${{ secrets.STRAVA_REDIRECT_URI }}
+          STRAVA_AUTH_SCOPE=${{ secrets.STRAVA_AUTH_SCOPE }}
+          STRAVA_OAUTH_TOKEN_API_ENDPOINT=${{ secrets.STRAVA_OAUTH_TOKEN_API_ENDPOINT }}
+          STRAVA_OAUTH_TOKEN_API_KEY=${{ secrets.STRAVA_OAUTH_TOKEN_API_KEY }}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
