@@ -13,7 +13,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install and Build
+      - name: Build
         run: |
           npm ci --only=production
           npm run build
