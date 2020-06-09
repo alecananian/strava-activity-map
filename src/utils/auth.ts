@@ -58,5 +58,5 @@ export const getCachedAccessToken = (): string | undefined => {
 
 export const logOut = () => {
   localStorage.clear();
-  window.location.href = '/';
+  window.location.href = window.location.pathname;
 };
