@@ -1,10 +1,27 @@
-import type { ActivityType, IActivitiesCache } from '~/types';
+import {
+  blue,
+  deepPurple,
+  indigo,
+} from '@material-ui/core/colors';
+
+import type { IActivitiesCache, TActivityTypeSettings } from '~/types';
+import { ActivityType } from '~/types';
 import type Activity from '~/models/activity';
+import { StravaOrange, stringToColor } from '~/utils/color';
 import {
   CacheKey,
   getJSONFromLocalStorage,
   setJSONToLocalStorage,
 } from '~/utils/localStorage';
+
+const CustomActivityTypeColors: {
+  [key in ActivityType]?: string
+} = {
+  [ActivityType.Hike]: indigo[400],
+  [ActivityType.Ride]: StravaOrange,
+  [ActivityType.Run]: deepPurple[400],
+  [ActivityType.Walk]: blue[400],
+};
 
 export const getUniqueActivityTypes = (activies: Activity[]): ActivityType[] => (
   [...new Set(activies.map(({ type }) => type))].sort()
@@ -49,3 +66,13 @@ export const prependCachedActivities = (activities: Activity[]) => {
     ]);
   }
 };
+
+export const getDefaultActivityTypeSettings = (): TActivityTypeSettings => (
+  Object.values(ActivityType).reduce((settings, type) => ({
+    ...settings,
+    [type]: {
+      color: CustomActivityTypeColors[type] || stringToColor(type),
+      hidden: false,
+    },
+  }), {}) as TActivityTypeSettings
+);

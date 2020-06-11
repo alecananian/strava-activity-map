@@ -1,0 +1,32 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Build
+        run: |
+          npm ci
+          npm run build:gh
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_REDIRECT_URI: ${{ secrets.STRAVA_REDIRECT_URI }}
+          STRAVA_AUTH_SCOPE: ${{ secrets.STRAVA_AUTH_SCOPE }}
+          STRAVA_OAUTH_TOKEN_API_ENDPOINT: ${{ secrets.STRAVA_OAUTH_TOKEN_API_ENDPOINT }}
+          STRAVA_OAUTH_TOKEN_API_KEY: ${{ secrets.STRAVA_OAUTH_TOKEN_API_KEY }}
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: dist
+          CLEAN: true

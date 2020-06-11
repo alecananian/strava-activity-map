@@ -9,12 +9,14 @@ import { useStrava } from '~/contexts/strava';
 const MapView = () => {
   const {
     isAuthenticated,
+    isAuthenticating,
     logIn,
   } = useStrava();
   return (
     <>
       <LoginDialog
         open={!isAuthenticated}
+        loading={isAuthenticating}
         onLogIn={logIn}
       />
       <OptionsMenu />

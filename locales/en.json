@@ -5,7 +5,8 @@
     "activityTypeDetails": "$t(activityCount, { 'count': {{activityCount}} }) ({{distance}})",
     "app": {
       "title": "Strava Activity Map",
-      "description": "Connect with Strava to view your activity map"
+      "description": "Connect with Strava to view your activity map",
+      "disclaimer": "Your private data never leaves the browser."
     },
     "distance_mi": "{{value}} mi",
     "distance_km": "{{value}} km",
@@ -13,7 +14,7 @@
     "distanceUnit_km": "Kilometers",
     "language_en": "English",
     "login": {
-      "action": "Connect with Strava"
+      "action": "Connect with <1/>"
     },
     "mapType_map": "Map",
     "mapType_satellite": "Satellite",

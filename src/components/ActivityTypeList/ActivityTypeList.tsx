@@ -87,6 +87,7 @@ const ActivityTypeList = ({
             />
             <ListItemSecondaryAction>
               <Switch
+                color="primary"
                 checked={!activityTypeSettings[type]?.hidden}
                 onChange={() => onToggleActivityType(type)}
               />

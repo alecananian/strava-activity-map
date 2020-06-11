@@ -17,10 +17,10 @@ const MapTypeList = ({
 }: Props) => (
   <Grid container>
     {[
-      MapType.Map,
-      MapType.Satellite,
       MapType.HeatMapLight,
       MapType.HeatMapDark,
+      MapType.Map,
+      MapType.Satellite,
     ].map((type: MapType) => (
       <Grid item key={type} md={3}>
         <MapTypeCard

@@ -16,6 +16,7 @@ import { getQueryParams } from '~/utils/url';
 
 export interface IStravaAuthContext {
   isAuthenticated: boolean;
+  isAuthenticating: boolean;
   user?: User;
   logIn(): void;
   logOut(): void;
@@ -30,15 +31,18 @@ const StravaAuthContext = createContext({} as IStravaAuthContext);
 export const useStravaAuth = () => useContext(StravaAuthContext);
 
 const StravaAuthProvider = ({ children }: IStravaAuthProvider) => {
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [user, setUser] = useState<User | undefined>(User.getFromCache());
 
   const detectUser = useCallback(async () => {
     const { code } = getQueryParams();
     if (code) {
+      setIsAuthenticating(true);
       const result = await getAuthTokenByCode(code);
       if (result && result.athlete) {
         setUser(new User(result.athlete));
       }
+      setIsAuthenticating(false);
     }
   }, []);
 
@@ -55,6 +59,7 @@ const StravaAuthProvider = ({ children }: IStravaAuthProvider) => {
     <StravaAuthContext.Provider
       value={{
         isAuthenticated: !!user,
+        isAuthenticating,
         user,
         logIn: () => logIn(),
         logOut: () => logOut(),
