@@ -1,5 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
+import { Trans, useTranslation } from 'react-i18next';
 import {
   Box,
   Button,
@@ -14,6 +15,18 @@ interface Props {
   loading: boolean;
   onLogIn: () => void;
 }
+
+const LoginButton = styled(Button)`
+  text-transform: none;
+`;
+
+const StravaLogo = styled.span`
+  width: 77px;
+  height: 15px;
+  background: url(/images/logo_strava@2x.png) no-repeat;
+  background-size: 100%;
+  margin-left: 5px;
+`;
 
 const LoginDialog = ({
   open = false,
@@ -45,14 +58,24 @@ const LoginDialog = ({
               {t('app.description')}
             </Typography>
             <Box my={2} textAlign="center">
-              <Button
+              <LoginButton
                 color="primary"
                 variant="contained"
                 onClick={onLogIn}
               >
-                Connect with Strava
-              </Button>
+                <Trans i18nKey="login.action">
+                  Connect with
+                  <StravaLogo />
+                </Trans>
+              </LoginButton>
             </Box>
+            <Typography
+              component="div"
+              variant="caption"
+              align="center"
+            >
+              {t('app.disclaimer')}
+            </Typography>
           </>
         )}
       </DialogContent>
