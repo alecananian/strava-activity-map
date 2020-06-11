@@ -33,7 +33,7 @@ type State = {
 
 const InitialState: State = getJSONFromLocalStorage(CacheKey.SettingsContext) || {
   activityTypeSettings: getDefaultActivityTypeSettings(),
-  mapType: MapType.Map,
+  mapType: MapType.HeatMapLight,
   distanceUnits: getDefaultDistanceUnits(),
 };
 
