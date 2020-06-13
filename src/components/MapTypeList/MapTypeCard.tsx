@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { Box, Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 import { MapType } from '~/types';
 import { getMapTypeThumbnailImageUrl } from '~/utils/map';

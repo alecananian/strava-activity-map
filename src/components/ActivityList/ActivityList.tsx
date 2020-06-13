@@ -2,14 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import {
-  List,
-  ListItem as MuiListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
-  Typography,
-} from '@material-ui/core';
+import List from '@material-ui/core/List';
+import MuiListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 
 import type { TActivityTypeSettings } from '~/types';
 import type Activity from '~/models/activity';

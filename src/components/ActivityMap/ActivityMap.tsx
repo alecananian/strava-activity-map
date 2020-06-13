@@ -9,7 +9,7 @@ import {
 } from 'react-leaflet';
 import L from 'leaflet';
 import PolylineUtil from 'polyline-encoded';
-import { useTheme } from '@material-ui/core';
+import useTheme from '@material-ui/styles/useTheme';
 
 import {
   useSettings,
