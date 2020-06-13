@@ -17,6 +17,7 @@ jobs:
           npm ci
           npm run build:gh
         env:
+          PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
           STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
           STRAVA_REDIRECT_URI: ${{ secrets.STRAVA_REDIRECT_URI }}
           STRAVA_AUTH_SCOPE: ${{ secrets.STRAVA_AUTH_SCOPE }}
