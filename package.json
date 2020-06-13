@@ -17,8 +17,9 @@
   "author": "Alec Ananian",
   "license": "MIT",
   "dependencies": {
-    "@material-ui/core": "^4.10.1",
+    "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/styles": "^4.10.0",
     "axios": "^0.19.2",
     "dayjs": "^1.8.28",
     "i18next": "^19.4.5",
@@ -28,7 +29,7 @@
     "react": "^16.13.1",
     "react-color": "^2.18.1",
     "react-dom": "^16.13.1",
-    "react-i18next": "^11.5.0",
+    "react-i18next": "^11.5.1",
     "react-leaflet": "^2.7.0",
     "styled-components": "^5.1.1"
   },
@@ -54,9 +55,9 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
     "husky": "^4.2.5",
-    "lint-staged": "^10.2.9",
+    "lint-staged": "^10.2.10",
     "parcel-bundler": "^1.12.4",
-    "parcel-plugin-static-files-copy": "^2.4.2",
+    "parcel-plugin-static-files-copy": "^2.4.3",
     "typescript": "^3.9.5"
   },
   "browserslist": [
