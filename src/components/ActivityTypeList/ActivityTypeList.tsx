@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ChromePicker } from 'react-color';
 import { useTranslation } from 'react-i18next';
-import {
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction as MuiListItemSecondaryAction,
-  ListItemText,
-  Popover,
-  Switch,
-} from '@material-ui/core';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import MuiListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Popover from '@material-ui/core/Popover';
+import Switch from '@material-ui/core/Switch';
 
 import { ColorDisplay } from '~/components/ColorDisplay';
 import type { ActivityType, TActivityTypeSettings } from '~/types';
@@ -25,7 +23,7 @@ import {
   getCountForActivityType,
   getTotalDistanceForActivityType,
 } from '~/utils/activity';
-import { convertDistance } from '~/utils/distance';
+import { convertDistance, formatNumber } from '~/utils/distance';
 
 type Props = {
   activities?: Activity[],
@@ -73,15 +71,17 @@ const ActivityTypeList = ({
               )}
             </ListItemIcon>
             <ListItemText
-              primary={type}
+              primary={t('activityType', type, { context: type })}
               secondary={t('activityTypeDetails', {
                 activityCount: getCountForActivityType(activities, type),
                 distance: t('distance', {
                   context: distanceUnits,
-                  value: convertDistance(
-                    getTotalDistanceForActivityType(activities, type),
-                    distanceUnits,
-                  ).toFixed(2),
+                  value: formatNumber(
+                    convertDistance(
+                      getTotalDistanceForActivityType(activities, type),
+                      distanceUnits,
+                    ),
+                  ),
                 }),
               })}
             />

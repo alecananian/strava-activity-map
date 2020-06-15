@@ -6,6 +6,10 @@ export const convertDistance = (meters: number, targetUnits: DistanceUnit): numb
   (meters / (targetUnits === DistanceUnit.Kilometers ? 1000 : 1609.344))
 );
 
+export const formatNumber = (num: number) => (
+  new Intl.NumberFormat(i18n.language, { maximumFractionDigits: 2 }).format(num)
+);
+
 export const getDefaultDistanceUnits = (): DistanceUnit => {
   const isUntiedStates = (
     i18n.language.toLowerCase().includes('-us')

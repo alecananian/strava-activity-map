@@ -1,21 +1,41 @@
 import { MapType } from '~/types';
 
-type MapTypeMapping = {
-  tileLayerUrl: string,
-};
+interface IMapTypeOptions {
+  url: string
+  attribution: string
+  options: {
+    maxZoom?: number
+  }
+}
 
-const Mappings: { [key in MapType]: MapTypeMapping } = {
+const MapTypeOptions: { [key in MapType]: IMapTypeOptions } = {
   [MapType.HeatMapLight]: {
-    tileLayerUrl: 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    url: 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Esri, HERE, Garmin, &copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors, and the GIS user community',
+    options: {
+      maxZoom: 16,
+    },
   },
   [MapType.HeatMapDark]: {
-    tileLayerUrl: 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    url: 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Esri, HERE, Garmin, &copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors, and the GIS user community',
+    options: {
+      maxZoom: 16,
+    },
   },
   [MapType.Map]: {
-    tileLayerUrl: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png',
+    url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png',
+    attribution: 'Wikimedia Foundation',
+    options: {
+      maxZoom: 18,
+    },
   },
   [MapType.Satellite]: {
-    tileLayerUrl: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Esri, Maxar, Earthstar Geographics, CNES/Airbus DS, USDA FSA, USGS, Aerogrid, IGN, IGP, and the GIS User Community',
+    options: {
+      maxZoom: 18,
+    },
   },
 };
 
@@ -23,10 +43,10 @@ const MapTypeSampleX = '2809';
 const MapTypeSampleY = '6539';
 const MapTypeSampleZ = '14';
 
-export const getMapTypeTileLayerUrl = (type: MapType): string => Mappings[type].tileLayerUrl;
+export const getMapTypeOptions = (type: MapType): IMapTypeOptions => MapTypeOptions[type];
 
 export const getMapTypeThumbnailImageUrl = (type: MapType): string => (
-  getMapTypeTileLayerUrl(type)
+  getMapTypeOptions(type).url
     .replace('{x}', MapTypeSampleX)
     .replace('{y}', MapTypeSampleY)
     .replace('{z}', MapTypeSampleZ)
