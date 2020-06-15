@@ -1,6 +1,6 @@
 {
   "name": "strava-activity-map",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Map visualizations for Strava activities",
   "main": "./src/index.js",
   "scripts": {
