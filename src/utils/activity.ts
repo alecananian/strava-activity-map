@@ -1,8 +1,6 @@
-import {
-  blue,
-  deepPurple,
-  indigo,
-} from '@material-ui/core/colors';
+import blue from '@material-ui/core/colors/blue';
+import deepPurple from '@material-ui/core/colors/deepPurple';
+import indigo from '@material-ui/core/colors/indigo';
 
 import type { IActivitiesCache, TActivityTypeSettings } from '~/types';
 import { ActivityType } from '~/types';

@@ -6,16 +6,14 @@ import React, {
 import styled from 'styled-components';
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
-import {
-  Box,
-  Button,
-  Grid,
-  Menu,
-  MenuItem,
-  Paper,
-  Tooltip,
-  // useTheme,
-} from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
+// import useTheme from '@material-ui/styles/useTheme';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import LanguageIcon from '@material-ui/icons/Translate';

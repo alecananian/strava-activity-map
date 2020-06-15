@@ -41,6 +41,7 @@ const StravaAuthProvider = ({ children }: IStravaAuthProvider) => {
       const result = await getAuthTokenByCode(code);
       if (result && result.athlete) {
         setUser(new User(result.athlete));
+        window.history.replaceState({}, document.title, window.location.pathname);
       }
       setIsAuthenticating(false);
     }

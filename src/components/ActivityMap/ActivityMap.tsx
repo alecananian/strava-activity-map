@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useMemo } from 'react';
 import styled from 'styled-components';
 import {
@@ -9,7 +10,8 @@ import {
 } from 'react-leaflet';
 import L from 'leaflet';
 import PolylineUtil from 'polyline-encoded';
-import { useTheme } from '@material-ui/core';
+import useTheme from '@material-ui/styles/useTheme';
+import type { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 import {
   useSettings,
@@ -17,7 +19,7 @@ import {
 } from '~/contexts/settings';
 import { useStrava } from '~/contexts/strava';
 import { ActivityType, MapType } from '~/types';
-import { getMapTypeTileLayerUrl } from '~/utils/map';
+import { getMapTypeOptions } from '~/utils/map';
 
 const DefaultCenter: L.LatLngTuple = [34.0737, -118.3176];
 const DefaultZoom = 12;
@@ -44,7 +46,7 @@ const ActivityMap = () => {
     isAuthenticated,
     activities,
   } = useStrava();
-  const theme = useTheme();
+  const theme: Theme = useTheme();
 
   const getColor = useCallback((type: ActivityType): string => {
     if (mapType === MapType.HeatMapLight) {
@@ -100,10 +102,7 @@ const ActivityMap = () => {
       onViewportChanged={onViewportChanged}
     >
       <ZoomControl position="topright" />
-      <TileLayer
-        url={getMapTypeTileLayerUrl(mapType)}
-        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-      />
+      <TileLayer {...getMapTypeOptions(mapType)} />
       <FeatureGroup>
         {visibileActivities.map(({ id, type, polyline }) => (
           <Polyline

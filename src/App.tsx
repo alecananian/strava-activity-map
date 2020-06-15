@@ -1,11 +1,9 @@
 import React, { useMemo } from 'react';
 import { ThemeProvider } from 'styled-components';
-import {
-  StylesProvider,
-  ThemeProvider as MuiThemeProvider,
-  createMuiTheme,
-  useMediaQuery,
-} from '@material-ui/core';
+import StylesProvider from '@material-ui/styles/StylesProvider';
+import MuiThemeProvider from '@material-ui/styles/ThemeProvider';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import '~/i18n';
 import StravaProvider from '~/contexts/strava';
