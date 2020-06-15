@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
+import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import List from '@material-ui/core/List';
 import MuiListItem from '@material-ui/core/ListItem';
@@ -12,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import type { TActivityTypeSettings } from '~/types';
 import type Activity from '~/models/activity';
 import { DistanceUnit } from '~/types';
-import { convertDistance } from '~/utils/distance';
+import { convertDistance, formatNumber } from '~/utils/distance';
 import { displayTime } from '~/utils/time';
 
 import { ActivityIcon } from '~/components/ActivityIcon';
@@ -60,13 +61,13 @@ const ActivityList = ({
             </ListItemIcon>
             <ListItemText
               primary={activity.name}
-              secondary={dayjs(activity.startDate).format('LLL')}
+              secondary={dayjs(activity.startDate).locale(i18n.language).format('LLL')}
             />
             <ListItemSecondaryAction>
               <Typography variant="caption" display="block" align="right" color="textSecondary">
                 {t('distance', {
                   context: distanceUnits,
-                  value: convertDistance(activity.distance, distanceUnits).toFixed(2),
+                  value: formatNumber(convertDistance(activity.distance, distanceUnits)),
                 })}
               </Typography>
               <Typography variant="caption" display="block" align="right" color="textSecondary">

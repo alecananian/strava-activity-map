@@ -6,13 +6,14 @@
     "app": {
       "title": "Strava Activity Map",
       "description": "Connect with Strava to view your activity map",
-      "disclaimer": "Your private data never leaves the browser."
+      "disclaimer": "Your private data is never sent to a remote web server."
     },
     "distance_mi": "{{value}} mi",
     "distance_km": "{{value}} km",
     "distanceUnit_mi": "Miles",
     "distanceUnit_km": "Kilometers",
     "language_en": "English",
+    "language_ru": "русский",
     "login": {
       "action": "Connect with <1/>"
     },

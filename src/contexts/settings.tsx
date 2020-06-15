@@ -77,10 +77,7 @@ type ContextProps = {
   dispatch: React.Dispatch<ContextAction>,
 };
 
-const SettingsContext = createContext<ContextProps>({
-  state: InitialState,
-  dispatch: () => null,
-});
+const SettingsContext = createContext({} as ContextProps);
 
 export const useSettings = () => useContext(SettingsContext);
 

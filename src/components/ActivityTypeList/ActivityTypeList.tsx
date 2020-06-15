@@ -23,7 +23,7 @@ import {
   getCountForActivityType,
   getTotalDistanceForActivityType,
 } from '~/utils/activity';
-import { convertDistance } from '~/utils/distance';
+import { convertDistance, formatNumber } from '~/utils/distance';
 
 type Props = {
   activities?: Activity[],
@@ -71,15 +71,17 @@ const ActivityTypeList = ({
               )}
             </ListItemIcon>
             <ListItemText
-              primary={type}
+              primary={t('activityType', type, { context: type })}
               secondary={t('activityTypeDetails', {
                 activityCount: getCountForActivityType(activities, type),
                 distance: t('distance', {
                   context: distanceUnits,
-                  value: convertDistance(
-                    getTotalDistanceForActivityType(activities, type),
-                    distanceUnits,
-                  ).toFixed(2),
+                  value: formatNumber(
+                    convertDistance(
+                      getTotalDistanceForActivityType(activities, type),
+                      distanceUnits,
+                    ),
+                  ),
                 }),
               })}
             />
