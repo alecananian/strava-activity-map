@@ -27,7 +27,7 @@ import { convertDistance, formatNumber } from '~/utils/distance';
 
 type Props = {
   activities?: Activity[],
-  activityTypeSettings?: TActivityTypeSettings,
+  activityTypeSettings?: Partial<TActivityTypeSettings>,
   distanceUnits: DistanceUnit,
   canSelectColor?: boolean,
   onToggleActivityType: (type: ActivityType) => void,
