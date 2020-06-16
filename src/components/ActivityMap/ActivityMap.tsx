@@ -1,5 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback, useMemo } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react';
 import styled from 'styled-components';
 import {
   FeatureGroup,
@@ -8,20 +13,29 @@ import {
   TileLayer,
   ZoomControl,
 } from 'react-leaflet';
-import L from 'leaflet';
+import type {
+  Map as LeafletMap,
+  LatLngTuple,
+  LatLngBounds,
+} from 'leaflet';
+import {
+  polyline as createPolyline,
+  featureGroup as createFeatureGroup,
+} from 'leaflet';
 import PolylineUtil from 'polyline-encoded';
 import useTheme from '@material-ui/styles/useTheme';
 import type { Theme } from '@material-ui/core/styles/createMuiTheme';
 
-import {
-  useSettings,
-  // setSelectedActivityAction,
-} from '~/contexts/settings';
+import { useSettings } from '~/contexts/settings';
 import { useStrava } from '~/contexts/strava';
 import { ActivityType, MapType } from '~/types';
 import { getMapTypeOptions } from '~/utils/map';
 
-const DefaultCenter: L.LatLngTuple = [34.0737, -118.3176];
+interface IHTMLMapElement {
+  leafletElement: LeafletMap
+}
+
+const DefaultCenter: LatLngTuple = [34.0737, -118.3176];
 const DefaultZoom = 12;
 
 const StyledMap = styled(Map)`
@@ -34,13 +48,13 @@ const StyledMap = styled(Map)`
 `;
 
 const ActivityMap = () => {
+  const mapRef = useRef<IHTMLMapElement | undefined>();
   const {
     state: {
       selectedActivity,
       activityTypeSettings,
       mapType,
     },
-    dispatch,
   } = useSettings();
   const {
     isAuthenticated,
@@ -60,10 +74,6 @@ const ActivityMap = () => {
     return activityTypeSettings[type]?.color || theme.palette.primary.main;
   }, [theme, mapType, activityTypeSettings]);
 
-  const onViewportChanged = useCallback(() => {
-    // dispatch(setSelectedActivityAction());
-  }, [dispatch]);
-
   const opacity = useMemo(() => (
     [MapType.HeatMapLight, MapType.HeatMapDark].includes(mapType) ? 0.3 : 1
   ), [mapType]);
@@ -74,35 +84,50 @@ const ActivityMap = () => {
     ))
   ), [activities, activityTypeSettings]);
 
-  const bounds = useMemo(() => {
+  const mapTypeOptions = useMemo(() => getMapTypeOptions(mapType), [mapType]);
+
+  const fitBounds = useCallback((bounds: LatLngBounds) => {
+    if (mapRef && mapRef.current) {
+      mapRef.current.leafletElement.fitBounds(bounds, {
+        paddingTopLeft: [400, 0],
+      });
+    }
+  }, [mapRef]);
+
+  useEffect(() => {
+    if (mapRef && mapRef.current) {
+      const { maxZoom } = mapTypeOptions.options;
+      if (maxZoom) {
+        mapRef.current.leafletElement.setMaxZoom(maxZoom);
+      }
+    }
+  }, [mapRef, mapTypeOptions]);
+
+  useEffect(() => {
     if (selectedActivity) {
-      return L.polyline(PolylineUtil.decode(selectedActivity.polyline)).getBounds();
+      fitBounds(createPolyline(PolylineUtil.decode(selectedActivity.polyline)).getBounds());
     }
+  }, [fitBounds, selectedActivity]);
 
-    if (activities.length > 0) {
-      return L.featureGroup(
+  useEffect(() => {
+    fitBounds(
+      createFeatureGroup(
         activities.slice(0, 5).map(({ polyline }) => (
-          L.polyline(PolylineUtil.decode(polyline))
+          createPolyline(PolylineUtil.decode(polyline))
         )),
-      ).getBounds();
-    }
-
-    return undefined;
-  }, [selectedActivity, activities]);
+      ).getBounds(),
+    );
+  }, [fitBounds, activities]);
 
   return (
     <StyledMap
+      ref={mapRef}
       center={isAuthenticated ? undefined : DefaultCenter}
       zoom={isAuthenticated ? undefined : DefaultZoom}
       zoomControl={false}
-      bounds={bounds}
-      boundsOptions={{
-        paddingTopLeft: [400, 0],
-      }}
-      onViewportChanged={onViewportChanged}
     >
       <ZoomControl position="topright" />
-      <TileLayer {...getMapTypeOptions(mapType)} />
+      <TileLayer {...mapTypeOptions} />
       <FeatureGroup>
         {visibileActivities.map(({ id, type, polyline }) => (
           <Polyline
