@@ -20,7 +20,7 @@ import { ActivityIcon } from '~/components/ActivityIcon';
 
 type Props = {
   activities?: Activity[],
-  activityTypeSettings?: TActivityTypeSettings,
+  activityTypeSettings?: Partial<TActivityTypeSettings>,
   distanceUnits: DistanceUnit,
   onSelect: (activity: Activity) => void,
 };
