@@ -62,21 +62,17 @@ const ActivityMap = () => {
   } = useStrava();
   const theme: Theme = useTheme();
 
-  const getColor = useCallback((type: ActivityType): string => {
-    if (mapType === MapType.HeatMapLight) {
-      return theme.palette.primary.main;
-    }
-
-    if (mapType === MapType.HeatMapDark) {
-      return '#fff';
-    }
-
-    return activityTypeSettings[type]?.color || theme.palette.primary.main;
-  }, [theme, mapType, activityTypeSettings]);
-
-  const opacity = useMemo(() => (
-    [MapType.HeatMapLight, MapType.HeatMapDark].includes(mapType) ? 0.3 : 1
+  const isHeatMap = useMemo(() => (
+    [MapType.HeatMapLight, MapType.HeatMapDark].includes(mapType)
   ), [mapType]);
+
+  const getColor = useCallback((type: ActivityType): string => (
+    isHeatMap ? (
+      theme.palette.primary.main
+    ) : (
+      activityTypeSettings[type]?.color || theme.palette.primary.main
+    )
+  ), [theme, isHeatMap, activityTypeSettings]);
 
   const visibileActivities = useMemo(() => (
     activities.filter(({ type, polyline }) => (
@@ -110,13 +106,15 @@ const ActivityMap = () => {
   }, [fitBounds, selectedActivity]);
 
   useEffect(() => {
-    fitBounds(
-      createFeatureGroup(
-        activities.slice(0, 5).map(({ polyline }) => (
-          createPolyline(PolylineUtil.decode(polyline))
-        )),
-      ).getBounds(),
-    );
+    if (activities.length > 0) {
+      fitBounds(
+        createFeatureGroup(
+          activities.slice(0, 5).map(({ polyline }) => (
+            createPolyline(PolylineUtil.decode(polyline))
+          )),
+        ).getBounds(),
+      );
+    }
   }, [fitBounds, activities]);
 
   return (
@@ -134,7 +132,7 @@ const ActivityMap = () => {
             key={id}
             positions={PolylineUtil.decode(polyline)}
             color={getColor(type)}
-            opacity={opacity}
+            opacity={isHeatMap ? 0.2 : 1}
             interactive={false}
             options={{
               smoothFactor: 2,
