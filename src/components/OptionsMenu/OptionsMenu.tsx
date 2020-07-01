@@ -4,19 +4,14 @@ import React, {
   useCallback,
 } from 'react';
 import styled from 'styled-components';
-import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 // import useTheme from '@material-ui/styles/useTheme';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
-import LanguageIcon from '@material-ui/icons/Translate';
 // import LightModeIcon from '@material-ui/icons/Brightness7';
 // import DarkModeIcon from '@material-ui/icons/Brightness4';
 import LogOutIcon from '@material-ui/icons/ExitToApp';
@@ -36,6 +31,9 @@ import { useStrava } from '~/contexts/strava';
 import type { ActivityType } from '~/types';
 import type Activity from '~/models/activity';
 import { MapType, DistanceUnit } from '~/types';
+import { getAvailableLanguages } from '~/utils/i18n';
+import MenuButton from './MenuButton';
+import LanguageMenuButton from './LanguageMenuButton';
 
 const MenuContainer = styled.div<{ open: boolean }>`${({ theme, open }) => `
   position: absolute;
@@ -67,18 +65,6 @@ const MenuButtonContainer = styled.div`${({ theme }) => `
   margin-left: ${theme.spacing(1)}px;
 `}`;
 
-const MenuButton = styled(Button)`${({ theme }) => `
-  background-color: ${theme.palette.background.paper};
-  color: ${theme.palette.text.secondary};
-  min-width: auto;
-  width: 50px;
-  height: 50px;
-  margin-bottom: ${theme.spacing(0.5)}px;
-  &:hover {
-    background-color: ${theme.palette.background.default};
-  }
-`}`;
-
 const SliderButton = styled(MenuButton)`${({ theme }) => `
   margin-left: ${theme.spacing(-1)}px;
   padding-right: 0;
@@ -88,11 +74,8 @@ const SliderButton = styled(MenuButton)`${({ theme }) => `
   border-bottom-left-radius: 0;
 `}`;
 
-const languages = Object.keys(i18n.options.resources!);
-
 const OptionsMenu = () => {
   const [open, setOpen] = useState(true);
-  const [languageMenuAnchorEl, setLanguageMenuAnchorEl] = useState<HTMLButtonElement | undefined>();
   const {
     state: {
       activityTypeSettings,
@@ -128,11 +111,6 @@ const OptionsMenu = () => {
   const handleSelectActivity = useCallback((activity: Activity) => {
     dispatch(setSelectedActivityAction(activity));
   }, [dispatch]);
-
-  const handleChangeLanguage = useCallback((language: string) => {
-    i18n.changeLanguage(language);
-    setLanguageMenuAnchorEl(undefined);
-  }, []);
 
   return (
     <>
@@ -211,14 +189,11 @@ const OptionsMenu = () => {
               </MenuButton>
             </Tooltip>
           )}
-          {languages.length > 1 && (
+          {getAvailableLanguages().length > 1 && (
             <Tooltip title={t('menu.language') as string} placement="right" arrow>
-              <MenuButton
-                variant="contained"
-                onClick={(e) => setLanguageMenuAnchorEl(e.currentTarget)}
-              >
-                <LanguageIcon />
-              </MenuButton>
+              <Box>
+                <LanguageMenuButton />
+              </Box>
             </Tooltip>
           )}
           {/* <Tooltip
@@ -244,27 +219,6 @@ const OptionsMenu = () => {
           )}
         </MenuButtonContainer>
       </MenuContainer>
-      <Menu
-        anchorEl={languageMenuAnchorEl}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        open={!!languageMenuAnchorEl}
-        onClose={() => setLanguageMenuAnchorEl(undefined)}
-        keepMounted
-      >
-        {languages.map((language) => (
-          <MenuItem key={language} onClick={() => handleChangeLanguage(language)}>
-            {t('language', { context: language })}
-          </MenuItem>
-        ))}
-      </Menu>
     </>
   );
 };
