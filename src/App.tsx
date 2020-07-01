@@ -1,42 +1,46 @@
 import React, { useMemo } from 'react';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import StylesProvider from '@material-ui/styles/StylesProvider';
 import MuiThemeProvider from '@material-ui/styles/ThemeProvider';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import '~/i18n';
 import StravaProvider from '~/contexts/strava';
 import { SettingsProvider } from '~/contexts/settings';
+import { ThemeProvider, useTheme } from '~/contexts/theme';
 import { StravaOrange } from '~/utils/color';
 import { MapView } from '~/views/MapView';
 
 const App = () => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const { state: { darkMode } } = useTheme();
   const theme = useMemo(() => (
     createMuiTheme({
       palette: {
-        type: prefersDarkMode ? 'dark' : 'light',
+        type: darkMode ? 'dark' : 'light',
         primary: {
           main: StravaOrange,
         },
       },
     })
-  ), [prefersDarkMode]);
+  ), [darkMode]);
 
   return (
-    <StylesProvider injectFirst>
-      <MuiThemeProvider theme={theme}>
-        <ThemeProvider theme={theme}>
-          <StravaProvider>
-            <SettingsProvider>
-              <MapView />
-            </SettingsProvider>
-          </StravaProvider>
-        </ThemeProvider>
-      </MuiThemeProvider>
-    </StylesProvider>
+    <MuiThemeProvider theme={theme}>
+      <StyledThemeProvider theme={theme}>
+        <StravaProvider>
+          <SettingsProvider>
+            <MapView />
+          </SettingsProvider>
+        </StravaProvider>
+      </StyledThemeProvider>
+    </MuiThemeProvider>
   );
 };
 
-export default App;
+export default () => (
+  <StylesProvider injectFirst>
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  </StylesProvider>
+);

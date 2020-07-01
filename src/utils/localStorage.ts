@@ -3,6 +3,7 @@ export enum CacheKey {
   User = 'strava.user',
   Activities = 'strava.activities',
   SettingsContext = 'context.settings',
+  ThemeContext = 'context.theme',
 }
 
 export const setJSONToLocalStorage = (key: string, obj: object) => (

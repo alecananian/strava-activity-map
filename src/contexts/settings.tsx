@@ -15,6 +15,7 @@ import {
   setJSONToLocalStorage,
   getJSONFromLocalStorage,
 } from '~/utils/localStorage';
+import { prefersDarkMode } from '~/utils/theme';
 
 enum ActionType {
   SetSelectedActivity = 'SET_SELECTED_ACTIVITY',
@@ -33,7 +34,7 @@ type State = {
 
 const InitialState: State = getJSONFromLocalStorage(CacheKey.SettingsContext) || {
   activityTypeSettings: getDefaultActivityTypeSettings(),
-  mapType: MapType.HeatMapLight,
+  mapType: prefersDarkMode() ? MapType.HeatMapDark : MapType.HeatMapLight,
   distanceUnits: getDefaultDistanceUnits(),
 };
 

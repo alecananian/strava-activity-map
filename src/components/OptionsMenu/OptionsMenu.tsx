@@ -1,19 +1,14 @@
-import React, {
-  useState,
-  // useMemo,
-  useCallback,
-} from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
-// import useTheme from '@material-ui/styles/useTheme';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
-// import LightModeIcon from '@material-ui/icons/Brightness7';
-// import DarkModeIcon from '@material-ui/icons/Brightness4';
+import LightModeIcon from '@material-ui/icons/Brightness7';
+import DarkModeIcon from '@material-ui/icons/Brightness4';
 import LogOutIcon from '@material-ui/icons/ExitToApp';
 
 import { ActivityList } from '~/components/ActivityList';
@@ -27,6 +22,7 @@ import {
   setMapTypeAction,
   setDistanceUnitsAction,
 } from '~/contexts/settings';
+import { useTheme, toggleDarkModeAction } from '~/contexts/theme';
 import { useStrava } from '~/contexts/strava';
 import type { ActivityType } from '~/types';
 import type Activity from '~/models/activity';
@@ -85,16 +81,17 @@ const OptionsMenu = () => {
     dispatch,
   } = useSettings();
   const {
+    state: {
+      darkMode,
+    },
+    dispatch: dispatchTheme,
+  } = useTheme();
+  const {
     isAuthenticated,
     logOut,
     activities,
   } = useStrava();
   const { t } = useTranslation();
-  // const theme = useTheme();
-
-  // const isDarkMode = useMemo(() => (
-  //   theme.palette.type === 'dark'
-  // ), [theme]);
 
   const handleChangeMapType = useCallback((type: MapType) => {
     dispatch(setMapTypeAction(type));
@@ -111,6 +108,10 @@ const OptionsMenu = () => {
   const handleSelectActivity = useCallback((activity: Activity) => {
     dispatch(setSelectedActivityAction(activity));
   }, [dispatch]);
+
+  const handleToggleDarkMode = useCallback(() => {
+    dispatchTheme(toggleDarkModeAction());
+  }, [dispatchTheme]);
 
   return (
     <>
@@ -196,17 +197,18 @@ const OptionsMenu = () => {
               </Box>
             </Tooltip>
           )}
-          {/* <Tooltip
-            title={t(isDarkMode ? 'menu.lightMode' : 'menu.darkMode') as string}
+          <Tooltip
+            title={t(darkMode ? 'menu.lightMode' : 'menu.darkMode') as string}
             placement="right"
             arrow
           >
             <MenuButton
               variant="contained"
+              onClick={handleToggleDarkMode}
             >
-              {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
+              {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
             </MenuButton>
-          </Tooltip> */}
+          </Tooltip>
           {isAuthenticated && (
             <Tooltip title={t('menu.logOut') as string} placement="right" arrow>
               <MenuButton
