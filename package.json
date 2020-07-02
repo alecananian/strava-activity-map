@@ -4,10 +4,12 @@
   "description": "Map visualizations for Strava activities",
   "main": "./src/index.js",
   "scripts": {
+    "analyze": "source-map-explorer --no-border-checks 'dist/*.js'",
     "start": "parcel ./src/index.html",
     "build": "parcel build ./src/index.html",
     "build:gh": "npm run build -- --public-url /strava-activity-map",
-    "lint": "eslint ./src --ext .tsx,.ts"
+    "lint": "eslint ./src --ext .tsx,.ts",
+    "test": "jest ./src --coverage"
   },
   "keywords": [
     "strava",
@@ -22,7 +24,7 @@
     "@material-ui/styles": "^4.10.0",
     "axios": "^0.19.2",
     "dayjs": "^1.8.28",
-    "i18next": "^19.5.1",
+    "i18next": "^19.5.2",
     "i18next-browser-languagedetector": "^5.0.0",
     "leaflet": "^1.6.0",
     "polyline-encoded": "0.0.9",
@@ -52,13 +54,17 @@
     "eslint-config-airbnb": "^18.2.0",
     "eslint-import-resolver-parcel": "^1.10.4",
     "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.17.1",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.3",
     "husky": "^4.2.5",
+    "jest": "^26.1.0",
     "lint-staged": "^10.2.11",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-static-files-copy": "^2.4.3",
-    "typescript": "^3.9.5"
+    "source-map-explorer": "^2.4.2",
+    "ts-jest": "^26.1.1",
+    "typescript": "^3.9.6"
   },
   "browserslist": [
     "defaults",

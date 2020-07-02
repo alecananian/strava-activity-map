@@ -9,7 +9,7 @@ import StravaProvider from '~/contexts/strava';
 import { SettingsProvider } from '~/contexts/settings';
 import { ThemeProvider, useTheme } from '~/contexts/theme';
 import { StravaOrange } from '~/utils/color';
-import { MapView } from '~/views/MapView';
+import MapView from '~/views/MapView';
 
 const App = () => {
   const { state: { darkMode } } = useTheme();

@@ -1,1 +1,1 @@
-export { default as ColorDisplay } from './ColorDisplay';
+export { default } from './ColorDisplay';

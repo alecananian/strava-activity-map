@@ -1,1 +1,1 @@
-export { default as ActivityIcon } from './ActivityIcon';
+export { default } from './ActivityIcon';

@@ -35,7 +35,7 @@ const StravaAuthProvider = ({ children }: IStravaAuthProvider) => {
   const [user, setUser] = useState<User | undefined>(User.getFromCache());
 
   const detectUser = useCallback(async () => {
-    const { code } = getQueryParams();
+    const { code } = getQueryParams(window.location.search);
     if (code) {
       setIsAuthenticating(true);
       const result = await getAuthTokenByCode(code);

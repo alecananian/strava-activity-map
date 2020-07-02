@@ -1,6 +1,5 @@
-export const getQueryParams = (): any => {
-  const queryString = window.location.search.replace('?', '');
-  return queryString.split('&').reduce((params, param) => {
+export const getQueryParams = (search: string): Record<string, string> => (
+  search.replace('?', '').split('&').reduce((params, param) => {
     const paramParts = param.split('=');
     if (paramParts.length !== 2) {
       return params;
@@ -10,5 +9,5 @@ export const getQueryParams = (): any => {
       ...params,
       [paramParts[0]]: paramParts[1],
     };
-  }, {});
-};
+  }, {})
+);

@@ -8,7 +8,7 @@ interface IMapTypeOptions {
   }
 }
 
-const MapTypeOptions: { [key in MapType]: IMapTypeOptions } = {
+const MapTypeOptions: Record<MapType, IMapTypeOptions> = {
   [MapType.HeatMapLight]: {
     url: 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
     attribution: 'Esri, HERE, Garmin, &copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors, and the GIS user community',

@@ -11,10 +11,10 @@ import LightModeIcon from '@material-ui/icons/Brightness7';
 import DarkModeIcon from '@material-ui/icons/Brightness4';
 import LogOutIcon from '@material-ui/icons/ExitToApp';
 
-import { ActivityList } from '~/components/ActivityList';
-import { ActivityTypeList } from '~/components/ActivityTypeList';
-import { MapTypeList } from '~/components/MapTypeList';
-import { ButtonSelect } from '~/components/ButtonSelect';
+import ActivityList from '~/components/ActivityList';
+import ActivityTypeList from '~/components/ActivityTypeList';
+import MapTypeList from '~/components/MapTypeList';
+import ButtonSelect from '~/components/ButtonSelect';
 import {
   useSettings,
   setSelectedActivityAction,

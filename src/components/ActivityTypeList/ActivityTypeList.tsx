@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Popover from '@material-ui/core/Popover';
 import Switch from '@material-ui/core/Switch';
 
-import { ColorDisplay } from '~/components/ColorDisplay';
+import ColorDisplay from '~/components/ColorDisplay';
 import type { ActivityType, TActivityTypeSettings } from '~/types';
 import type Activity from '~/models/activity';
 import { DistanceUnit } from '~/types';
