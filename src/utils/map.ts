@@ -24,10 +24,10 @@ const MapTypeOptions: Record<MapType, IMapTypeOptions> = {
     },
   },
   [MapType.Map]: {
-    url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png',
-    attribution: 'Wikimedia Foundation',
+    url: 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
     options: {
-      maxZoom: 18,
+      maxZoom: 20,
     },
   },
   [MapType.Satellite]: {
