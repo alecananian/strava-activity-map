@@ -9,7 +9,7 @@
     "build": "parcel build ./src/index.html",
     "build:gh": "npm run build -- --public-url /strava-activity-map",
     "lint": "eslint ./src --ext .tsx,.ts",
-    "test": "jest ./src --coverage"
+    "test": "jest ./src"
   },
   "keywords": [
     "strava",
@@ -74,7 +74,8 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
     }
   },
   "lint-staged": {

@@ -11,7 +11,7 @@ export const formatNumber = (num: number) => (
 );
 
 export const getDefaultDistanceUnits = (): DistanceUnit => {
-  const isUntiedStates = (
+  const isUnitedStates = (
     i18n.language.toLowerCase().includes('-us')
     || (
       navigator.languages
@@ -19,5 +19,5 @@ export const getDefaultDistanceUnits = (): DistanceUnit => {
       && navigator.languages[0].toLowerCase().includes('-us')
     )
   );
-  return isUntiedStates ? DistanceUnit.Miles : DistanceUnit.Kilometers;
+  return isUnitedStates ? DistanceUnit.Miles : DistanceUnit.Kilometers;
 };
