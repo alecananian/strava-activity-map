@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
+import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -10,11 +11,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import LightModeIcon from '@material-ui/icons/Brightness7';
 import DarkModeIcon from '@material-ui/icons/Brightness4';
 import LogOutIcon from '@material-ui/icons/ExitToApp';
+import LanguageIcon from '@material-ui/icons/Translate';
 
 import ActivityList from '~/components/ActivityList';
 import ActivityTypeList from '~/components/ActivityTypeList';
 import MapTypeList from '~/components/MapTypeList';
-import ButtonSelect from '~/components/ButtonSelect';
+import LocalizationSettingsDialog from '~/components/LocalizationSettingsDialog';
 import {
   useSettings,
   setSelectedActivityAction,
@@ -27,9 +29,8 @@ import { useStrava } from '~/contexts/strava';
 import type { ActivityType } from '~/types';
 import type Activity from '~/models/activity';
 import { MapType, DistanceUnit } from '~/types';
-import { getAvailableLanguages } from '~/utils/i18n';
+import { getAvailableLanguages, changeLanguage } from '~/utils/i18n';
 import MenuButton from './MenuButton';
-import LanguageMenuButton from './LanguageMenuButton';
 
 const MenuContainer = styled.div<{ open: boolean }>`${({ theme, open }) => `
   position: absolute;
@@ -72,6 +73,7 @@ const SliderButton = styled(MenuButton)`${({ theme }) => `
 
 const OptionsMenu = () => {
   const [open, setOpen] = useState(true);
+  const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
   const {
     state: {
       activityTypeSettings,
@@ -97,9 +99,11 @@ const OptionsMenu = () => {
     dispatch(setMapTypeAction(type));
   }, [dispatch]);
 
-  const handleChangeDistanceUnits = useCallback((value: string) => {
-    dispatch(setDistanceUnitsAction(value as DistanceUnit));
-  }, []);
+  const handleSaveLocalizationSettings = useCallback((language: string, units: DistanceUnit) => {
+    changeLanguage(language);
+    dispatch(setDistanceUnitsAction(units));
+    setSettingsDialogOpen(false);
+  }, [dispatch]);
 
   const handleToggleActivityType = useCallback((type: ActivityType) => {
     dispatch(toggleActivityTypeAction(type));
@@ -127,16 +131,6 @@ const OptionsMenu = () => {
                 selectedMapType={mapType}
                 onChange={handleChangeMapType}
               />
-              <Box mt={1}>
-                <ButtonSelect
-                  options={[
-                    [DistanceUnit.Miles, t('distanceUnit', { context: DistanceUnit.Miles })],
-                    [DistanceUnit.Kilometers, t('distanceUnit', { context: DistanceUnit.Kilometers })],
-                  ]}
-                  value={distanceUnits}
-                  onChange={handleChangeDistanceUnits}
-                />
-              </Box>
             </Box>
           </Grid>
           {isAuthenticated && (
@@ -191,10 +185,13 @@ const OptionsMenu = () => {
             </Tooltip>
           )}
           {getAvailableLanguages().length > 1 && (
-            <Tooltip title={t('menu.language') as string} placement="right" arrow>
-              <Box>
-                <LanguageMenuButton />
-              </Box>
+            <Tooltip title={t('menu.localizationSettings') as string} placement="right" arrow>
+              <MenuButton
+                variant="contained"
+                onClick={() => setSettingsDialogOpen(true)}
+              >
+                <LanguageIcon />
+              </MenuButton>
             </Tooltip>
           )}
           <Tooltip
@@ -221,6 +218,14 @@ const OptionsMenu = () => {
           )}
         </MenuButtonContainer>
       </MenuContainer>
+      <LocalizationSettingsDialog
+        language={i18n.language}
+        units={distanceUnits}
+        onSave={handleSaveLocalizationSettings}
+        onCancel={() => setSettingsDialogOpen(false)}
+        onClose={() => setSettingsDialogOpen(false)}
+        open={settingsDialogOpen}
+      />
     </>
   );
 };

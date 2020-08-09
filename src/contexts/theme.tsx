@@ -62,7 +62,6 @@ export const ThemeProvider: React.FC = (props) => {
 
   return (
     <ThemeContext.Provider
-      // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
       value={{
         state,

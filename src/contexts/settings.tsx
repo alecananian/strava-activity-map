@@ -174,7 +174,6 @@ export const SettingsProvider: React.FC = (props) => {
 
   return (
     <SettingsContext.Provider
-      // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
       value={{
         state,
