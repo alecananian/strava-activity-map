@@ -6,11 +6,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MuiListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
+import MuiListItemText from '@material-ui/core/ListItemText';
 import Popover from '@material-ui/core/Popover';
 import Switch from '@material-ui/core/Switch';
 
-import { ColorDisplay } from '~/components/ColorDisplay';
+import ColorDisplay from '~/components/ColorDisplay';
 import type { ActivityType, TActivityTypeSettings } from '~/types';
 import type Activity from '~/models/activity';
 import { DistanceUnit } from '~/types';
@@ -32,6 +32,11 @@ type Props = {
   canSelectColor?: boolean,
   onToggleActivityType: (type: ActivityType) => void,
 };
+
+const ListItemText = styled(MuiListItemText)`${({ theme }) => `
+  margin-top: ${theme.spacing(0.5)}px;
+  margin-bottom: ${theme.spacing(0.5)}px;
+`}`;
 
 const ListItemSecondaryAction = styled(MuiListItemSecondaryAction)`${({ theme }) => `
   right: ${theme.spacing(1)}px;

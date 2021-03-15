@@ -12,9 +12,7 @@ import {
   setJSONToLocalStorage,
 } from '~/utils/localStorage';
 
-const CustomActivityTypeColors: {
-  [key in ActivityType]?: string
-} = {
+const CustomActivityTypeColors: Partial<Record<ActivityType, string>> = {
   [ActivityType.Hike]: indigo[400],
   [ActivityType.Ride]: StravaOrange,
   [ActivityType.Run]: deepPurple[400],

@@ -1,30 +1,22 @@
-import React, {
-  useState,
-  // useMemo,
-  useCallback,
-} from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
-// import useTheme from '@material-ui/styles/useTheme';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
-import LanguageIcon from '@material-ui/icons/Translate';
-// import LightModeIcon from '@material-ui/icons/Brightness7';
-// import DarkModeIcon from '@material-ui/icons/Brightness4';
+import LightModeIcon from '@material-ui/icons/Brightness7';
+import DarkModeIcon from '@material-ui/icons/Brightness4';
 import LogOutIcon from '@material-ui/icons/ExitToApp';
+import LanguageIcon from '@material-ui/icons/Translate';
 
-import { ActivityList } from '~/components/ActivityList';
-import { ActivityTypeList } from '~/components/ActivityTypeList';
-import { MapTypeList } from '~/components/MapTypeList';
-import { ButtonSelect } from '~/components/ButtonSelect';
+import ActivityList from '~/components/ActivityList';
+import ActivityTypeList from '~/components/ActivityTypeList';
+import MapTypeList from '~/components/MapTypeList';
+import LocalizationSettingsDialog from '~/components/LocalizationSettingsDialog';
 import {
   useSettings,
   setSelectedActivityAction,
@@ -32,10 +24,13 @@ import {
   setMapTypeAction,
   setDistanceUnitsAction,
 } from '~/contexts/settings';
+import { useTheme, toggleDarkModeAction } from '~/contexts/theme';
 import { useStrava } from '~/contexts/strava';
 import type { ActivityType } from '~/types';
 import type Activity from '~/models/activity';
 import { MapType, DistanceUnit } from '~/types';
+import { getAvailableLanguages, changeLanguage } from '~/utils/i18n';
+import MenuButton from './MenuButton';
 
 const MenuContainer = styled.div<{ open: boolean }>`${({ theme, open }) => `
   position: absolute;
@@ -67,18 +62,6 @@ const MenuButtonContainer = styled.div`${({ theme }) => `
   margin-left: ${theme.spacing(1)}px;
 `}`;
 
-const MenuButton = styled(Button)`${({ theme }) => `
-  background-color: ${theme.palette.background.paper};
-  color: ${theme.palette.text.secondary};
-  min-width: auto;
-  width: 50px;
-  height: 50px;
-  margin-bottom: ${theme.spacing(0.5)}px;
-  &:hover {
-    background-color: ${theme.palette.background.default};
-  }
-`}`;
-
 const SliderButton = styled(MenuButton)`${({ theme }) => `
   margin-left: ${theme.spacing(-1)}px;
   padding-right: 0;
@@ -88,11 +71,9 @@ const SliderButton = styled(MenuButton)`${({ theme }) => `
   border-bottom-left-radius: 0;
 `}`;
 
-const languages = Object.keys(i18n.options.resources!);
-
 const OptionsMenu = () => {
   const [open, setOpen] = useState(true);
-  const [languageMenuAnchorEl, setLanguageMenuAnchorEl] = useState<HTMLButtonElement | undefined>();
+  const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
   const {
     state: {
       activityTypeSettings,
@@ -102,24 +83,27 @@ const OptionsMenu = () => {
     dispatch,
   } = useSettings();
   const {
+    state: {
+      darkMode,
+    },
+    dispatch: dispatchTheme,
+  } = useTheme();
+  const {
     isAuthenticated,
     logOut,
     activities,
   } = useStrava();
   const { t } = useTranslation();
-  // const theme = useTheme();
-
-  // const isDarkMode = useMemo(() => (
-  //   theme.palette.type === 'dark'
-  // ), [theme]);
 
   const handleChangeMapType = useCallback((type: MapType) => {
     dispatch(setMapTypeAction(type));
   }, [dispatch]);
 
-  const handleChangeDistanceUnits = useCallback((value: string) => {
-    dispatch(setDistanceUnitsAction(value as DistanceUnit));
-  }, []);
+  const handleSaveLocalizationSettings = useCallback((language: string, units: DistanceUnit) => {
+    changeLanguage(language);
+    dispatch(setDistanceUnitsAction(units));
+    setSettingsDialogOpen(false);
+  }, [dispatch]);
 
   const handleToggleActivityType = useCallback((type: ActivityType) => {
     dispatch(toggleActivityTypeAction(type));
@@ -129,10 +113,9 @@ const OptionsMenu = () => {
     dispatch(setSelectedActivityAction(activity));
   }, [dispatch]);
 
-  const handleChangeLanguage = useCallback((language: string) => {
-    i18n.changeLanguage(language);
-    setLanguageMenuAnchorEl(undefined);
-  }, []);
+  const handleToggleDarkMode = useCallback(() => {
+    dispatchTheme(toggleDarkModeAction());
+  }, [dispatchTheme]);
 
   return (
     <>
@@ -148,16 +131,6 @@ const OptionsMenu = () => {
                 selectedMapType={mapType}
                 onChange={handleChangeMapType}
               />
-              <Box mt={1}>
-                <ButtonSelect
-                  options={[
-                    [DistanceUnit.Miles, t('distanceUnit', { context: DistanceUnit.Miles })],
-                    [DistanceUnit.Kilometers, t('distanceUnit', { context: DistanceUnit.Kilometers })],
-                  ]}
-                  value={distanceUnits}
-                  onChange={handleChangeDistanceUnits}
-                />
-              </Box>
             </Box>
           </Grid>
           {isAuthenticated && (
@@ -211,27 +184,28 @@ const OptionsMenu = () => {
               </MenuButton>
             </Tooltip>
           )}
-          {languages.length > 1 && (
-            <Tooltip title={t('menu.language') as string} placement="right" arrow>
+          {getAvailableLanguages().length > 1 && (
+            <Tooltip title={t('menu.localizationSettings') as string} placement="right" arrow>
               <MenuButton
                 variant="contained"
-                onClick={(e) => setLanguageMenuAnchorEl(e.currentTarget)}
+                onClick={() => setSettingsDialogOpen(true)}
               >
                 <LanguageIcon />
               </MenuButton>
             </Tooltip>
           )}
-          {/* <Tooltip
-            title={t(isDarkMode ? 'menu.lightMode' : 'menu.darkMode') as string}
+          <Tooltip
+            title={t(darkMode ? 'menu.lightMode' : 'menu.darkMode') as string}
             placement="right"
             arrow
           >
             <MenuButton
               variant="contained"
+              onClick={handleToggleDarkMode}
             >
-              {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
+              {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
             </MenuButton>
-          </Tooltip> */}
+          </Tooltip>
           {isAuthenticated && (
             <Tooltip title={t('menu.logOut') as string} placement="right" arrow>
               <MenuButton
@@ -244,27 +218,14 @@ const OptionsMenu = () => {
           )}
         </MenuButtonContainer>
       </MenuContainer>
-      <Menu
-        anchorEl={languageMenuAnchorEl}
-        getContentAnchorEl={null}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        open={!!languageMenuAnchorEl}
-        onClose={() => setLanguageMenuAnchorEl(undefined)}
-        keepMounted
-      >
-        {languages.map((language) => (
-          <MenuItem key={language} onClick={() => handleChangeLanguage(language)}>
-            {t('language', { context: language })}
-          </MenuItem>
-        ))}
-      </Menu>
+      <LocalizationSettingsDialog
+        language={i18n.language}
+        units={distanceUnits}
+        onSave={handleSaveLocalizationSettings}
+        onCancel={() => setSettingsDialogOpen(false)}
+        onClose={() => setSettingsDialogOpen(false)}
+        open={settingsDialogOpen}
+      />
     </>
   );
 };

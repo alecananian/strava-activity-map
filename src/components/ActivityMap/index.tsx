@@ -1,1 +1,1 @@
-export { default as ActivityMap } from './ActivityMap';
+export { default } from './ActivityMap';

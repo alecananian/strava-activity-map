@@ -8,7 +8,7 @@ interface IMapTypeOptions {
   }
 }
 
-const MapTypeOptions: { [key in MapType]: IMapTypeOptions } = {
+const MapTypeOptions: Record<MapType, IMapTypeOptions> = {
   [MapType.HeatMapLight]: {
     url: 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
     attribution: 'Esri, HERE, Garmin, &copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors, and the GIS user community',
@@ -24,10 +24,10 @@ const MapTypeOptions: { [key in MapType]: IMapTypeOptions } = {
     },
   },
   [MapType.Map]: {
-    url: 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png',
-    attribution: 'Wikimedia Foundation',
+    url: 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
     options: {
-      maxZoom: 18,
+      maxZoom: 20,
     },
   },
   [MapType.Satellite]: {

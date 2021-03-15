@@ -16,7 +16,7 @@ import { DistanceUnit } from '~/types';
 import { convertDistance, formatNumber } from '~/utils/distance';
 import { displayTime } from '~/utils/time';
 
-import { ActivityIcon } from '~/components/ActivityIcon';
+import ActivityIcon from '~/components/ActivityIcon';
 
 type Props = {
   activities?: Activity[],

@@ -1,1 +1,1 @@
-export { default as ButtonSelect } from './ButtonSelect';
+export { default } from './ButtonSelect';

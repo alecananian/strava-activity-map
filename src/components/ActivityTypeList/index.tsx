@@ -1,1 +1,1 @@
-export { default as ActivityTypeList } from './ActivityTypeList';
+export { default } from './ActivityTypeList';

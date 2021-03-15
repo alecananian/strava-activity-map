@@ -91,9 +91,7 @@ export interface IActivitiesCache {
   activities: Activity[];
 }
 
-export type TActivityTypeSettings = {
-  [key in ActivityType]: {
-    color: string,
-    hidden: boolean,
-  };
-};
+export type TActivityTypeSettings = Record<ActivityType, {
+  color: string,
+  hidden: boolean,
+}>;
