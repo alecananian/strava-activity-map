@@ -105,16 +105,16 @@ const ActivityMap = () => {
   }, [fitBounds, selectedActivity]);
 
   useEffect(() => {
-    if (activities.length > 0) {
+    if (visibileActivities.length > 0) {
       fitBounds(
         createFeatureGroup(
-          activities.slice(0, 5).map(({ polyline }) => (
+          visibileActivities.slice(0, 5).map(({ polyline }) => (
             createPolyline(PolylineUtil.decode(polyline))
           )),
         ).getBounds(),
       );
     }
-  }, [fitBounds, activities]);
+  }, [fitBounds, visibileActivities]);
 
   return (
     <StyledMap
