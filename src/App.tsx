@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import StylesProvider from '@material-ui/styles/StylesProvider';
 import MuiThemeProvider from '@material-ui/styles/ThemeProvider';
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import createTheme from '@material-ui/core/styles/createTheme';
 
 import '~/i18n';
 import StravaProvider from '~/contexts/strava';
@@ -14,7 +14,7 @@ import MapView from '~/views/MapView';
 const App = () => {
   const { state: { darkMode } } = useTheme();
   const theme = useMemo(() => (
-    createMuiTheme({
+    createTheme({
       palette: {
         type: darkMode ? 'dark' : 'light',
         primary: {
