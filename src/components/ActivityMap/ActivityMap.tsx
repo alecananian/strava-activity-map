@@ -73,10 +73,8 @@ const ActivityMap = () => {
     )
   ), [theme, isHeatMap, activityTypeSettings]);
 
-  const visibileActivities = useMemo(() => (
-    activities.filter(({ type, polyline }) => (
-      polyline && !activityTypeSettings[type]?.hidden
-    ))
+  const visibleActivities = useMemo(() => (
+    activities.filter(({ type }) => !activityTypeSettings[type]?.hidden)
   ), [activities, activityTypeSettings]);
 
   const mapTypeOptions = useMemo(() => getMapTypeOptions(mapType), [mapType]);
@@ -105,16 +103,16 @@ const ActivityMap = () => {
   }, [fitBounds, selectedActivity]);
 
   useEffect(() => {
-    if (visibileActivities.length > 0) {
+    if (visibleActivities.length > 0) {
       fitBounds(
         createFeatureGroup(
-          visibileActivities.slice(0, 5).map(({ polyline }) => (
+          visibleActivities.slice(0, 5).map(({ polyline }) => (
             createPolyline(PolylineUtil.decode(polyline))
           )),
         ).getBounds(),
       );
     }
-  }, [fitBounds, visibileActivities]);
+  }, [fitBounds, visibleActivities]);
 
   return (
     <StyledMap
@@ -126,7 +124,7 @@ const ActivityMap = () => {
       <ZoomControl position="topright" />
       <TileLayer {...mapTypeOptions} />
       <FeatureGroup>
-        {visibileActivities.map(({ id, type, polyline }) => (
+        {visibleActivities.map(({ id, type, polyline }) => (
           <Polyline
             key={id}
             positions={PolylineUtil.decode(polyline)}

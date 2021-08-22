@@ -35,7 +35,7 @@ export const fetchNewActivities = async (): Promise<Activity[]> => {
     const results = await fetchActivities(page, MaxPerPage, lastSyncDate);
     activities = [
       ...activities,
-      ...results,
+      ...results.filter(({ polyline }) => polyline),
     ];
     complete = results.length < MaxPerPage || results.length === 0;
     if (!complete) {
