@@ -24,8 +24,8 @@ const MapTypeOptions: Record<MapType, IMapTypeOptions> = {
     },
   },
   [MapType.Map]: {
-    url: 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}.png',
-    attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
     options: {
       maxZoom: 20,
     },
@@ -39,6 +39,7 @@ const MapTypeOptions: Record<MapType, IMapTypeOptions> = {
   },
 };
 
+const MapTypeSampleS = 'a';
 const MapTypeSampleX = '2809';
 const MapTypeSampleY = '6539';
 const MapTypeSampleZ = '14';
@@ -47,6 +48,7 @@ export const getMapTypeOptions = (type: MapType): IMapTypeOptions => MapTypeOpti
 
 export const getMapTypeThumbnailImageUrl = (type: MapType): string => (
   getMapTypeOptions(type).url
+    .replace('{s}', MapTypeSampleS)
     .replace('{x}', MapTypeSampleX)
     .replace('{y}', MapTypeSampleY)
     .replace('{z}', MapTypeSampleZ)
