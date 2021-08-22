@@ -2,6 +2,18 @@
   "translation": {
     "activityCount": "{{count}} activity",
     "activityCount_plural": "{{count}} activities",
+    "activityType_AlpineSki": "Alpine Ski",
+    "activityType_BackcountrySki": "Backcountry Ski",
+    "activityType_EBikeRide": "E-Bike Ride",
+    "activityType_InlineSkate": "Inline Skate",
+    "activityType_NordicSki": "Nordic Ski",
+    "activityType_RockClimbing": "Rock Climbing",
+    "activityType_RollerSki": "Roller Ski",
+    "activityType_StairStepper": "Stair Stepper",
+    "activityType_StandUpPaddling": "Stand Up Paddling",
+    "activityType_VirtualRide": "Virtual Ride",
+    "activityType_VirtualRun": "Virtual Run",
+    "activityType_WeightTraining": "Weight Training",
     "activityTypeDetails": "$t(activityCount, { 'count': {{activityCount}} }) ({{distance}})",
     "app": {
       "title": "Strava Activity Map",

@@ -23,7 +23,7 @@ import {
 } from 'leaflet';
 import PolylineUtil from 'polyline-encoded';
 import useTheme from '@material-ui/styles/useTheme';
-import type { Theme } from '@material-ui/core/styles/createMuiTheme';
+import type { Theme } from '@material-ui/core/styles';
 
 import { useSettings } from '~/contexts/settings';
 import { useStrava } from '~/contexts/strava';
